@@ -1,0 +1,14 @@
+{
+  "name": "sparkdemoformemtech",
+  "version": "0.0.1",
+  "description": "A simple game to demo Spark.io and Johnny Five",
+  "dependencies": {
+    "body-parser": "^1.4.3",
+    "errorhandler": "^1.1.1",
+    "express": "^4.4.4",
+    "johnny-five": "^0.7.49",
+    "method-override": "^2.0.2",
+    "socket.io": "^1.0.6",
+    "spark-io": "^0.5.1"
+  }
+}
