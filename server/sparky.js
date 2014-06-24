@@ -7,6 +7,10 @@ var board = new five.Board({
     })
 });
 
+var sparky = {
+    onStartBlinking: function(){},
+    onEnd: function(){}
+};
 
 board.on("ready", function() {
 
@@ -24,6 +28,7 @@ board.on("ready", function() {
     button.on("down", function() {
         //console.log('BEGIN!');
         startBlinking();
+        sparky.onStartBlinking();
     });
 
     var blinking = false;
@@ -54,6 +59,10 @@ board.on("ready", function() {
                 msg = msg.length ? msg : 'OFF';
 
                 console.log('Winner is ' + msg);
+                sparky.onEnd({
+                    red: !!ledred.value,
+                    green: !!ledwhite.value
+                });
             },blinkTime);
         }
     }
@@ -64,4 +73,4 @@ board.on("ready", function() {
     }
 });
 
-module.exports = board;
+module.exports = sparky;
