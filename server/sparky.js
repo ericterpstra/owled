@@ -6,11 +6,14 @@ var board = new five.Board({
         token: 'ccd5329c9d74b1c7af24f3c0d5358ddcdb753279'
     })
 });
+var EventEmitter = require('events').EventEmitter;
+var util = require('util');
 
-var sparky = {
-    onStartBlinking: function(){},
-    onEnd: function(){}
-};
+function Sparky() {
+    EventEmitter.call(this);
+}
+util.inherits(Sparky, EventEmitter);
+var sparky = new Sparky();
 
 board.on("ready", function() {
 
@@ -21,14 +24,14 @@ board.on("ready", function() {
     board.repl.inject({
         button: button,
         ledred: ledred,
-        ledwhite: ledwhite,
+        ledwhite: ledwhite
     });
 
 
     button.on("down", function() {
         //console.log('BEGIN!');
         startBlinking();
-        sparky.onStartBlinking();
+        sparky.emit('startBlinking');
     });
 
     var blinking = false;
@@ -59,7 +62,7 @@ board.on("ready", function() {
                 msg = msg.length ? msg : 'OFF';
 
                 console.log('Winner is ' + msg);
-                sparky.onEnd({
+                sparky.emit('endBlinking',{
                     red: !!ledred.value,
                     green: !!ledwhite.value
                 });

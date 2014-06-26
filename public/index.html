@@ -8,39 +8,40 @@
 </head>
 <body ng-app="sparkDemo">
 
-<div ng-controller="SDController">
+<div class="app-wrap" ng-controller="SDController">
 
-    <section class="my-pick-buttons">
+    <div class="game-area">
 
-        <div class="roundedOne green">
-            <input type="checkbox"
-                   id="greenBtn"
-                   ng-model="mypick.green"
-                   ng-checked="mypick.green" />
-            <label for="greenBtn"></label>
+        <section class="my-pick-buttons">
+
+            <div class="roundedOne green">
+                <input type="checkbox"
+                       id="greenBtn"
+                       ng-model="mypick.green"
+                       ng-checked="mypick.green" />
+                <label for="greenBtn"></label>
+            </div>
+
+            <div class="roundedOne red">
+                <input type="checkbox"
+                       id="redBtn"
+                       ng-model="mypick.red"
+                       ng-checked="mypick.red" />
+                <label for="redBtn"></label>
+            </div>
+
+        </section>
+
+        <div class="result-text" ng-if="gameResult">
+            <div>{{gameResult}}</div>
         </div>
-
-        <div class="roundedOne red">
-            <input type="checkbox"
-                   id="redBtn"
-                   ng-model="mypick.red"
-                   ng-checked="mypick.red" />
-            <label for="redBtn"></label>
-        </div>
-
-    </section>
-
-    <div>
-        <h4>Server:</h4>
-        <div>Green: {{serverpick.green}}</div>
-        <div>Red: {{serverpick.red}}</div>
     </div>
 
-    <div>
-        <h4>Result</h4>
-        <div>{{gameResult}}</div>
+    <div class="result-blocks">
+        <div class="result-green" ng-class="{on:serverpick.green}"></div>
+        <div class="result-red" ng-class="{on:serverpick.red}"></div>
     </div>
-</div>
+</div> <!-- .app-wrap -->
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>

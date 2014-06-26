@@ -13,22 +13,26 @@ app.get("/", function (req, res) {
 });
 
 
-var sparky = require('./server/sparky.js');
+// Import Sparky
+//var sparky = require('./server/sparky');
 
 
 /* *****************************
      Start a Socket.IO Server
  */
+
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 http.listen(3000);
 
-sparky.onStartBlinking = function(){
+/*
+// Listen for events on sparky, and announce them to connected clients.
+sparky.on('startBlinking', function(){
     console.log('Sparky Blinks!');
     io.sockets.emit('sparkyStart');
-};
+});
 
-sparky.onEnd = function(res){
+sparky.on('endBlinking', function(res){
     console.log('Sparky Says... Red: ' + res.red + ' Green: ' + res.green);
     io.sockets.emit('sparkyResult',res);
-};
+});*/
