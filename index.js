@@ -14,8 +14,9 @@ app.get("/", function (req, res) {
 
 
 // Import Sparky
+//var owled = require('./server/owled');
+var owled = require('./server/owled-fake');
 //var sparky = require('./server/sparky');
-
 
 /* *****************************
      Start a Socket.IO Server
@@ -23,16 +24,40 @@ app.get("/", function (req, res) {
 
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var redis = require('redis');
+var redisClient = redis.createClient();
 http.listen(3000);
 
-/*
-// Listen for events on sparky, and announce them to connected clients.
-sparky.on('startBlinking', function(){
-    console.log('Sparky Blinks!');
-    io.sockets.emit('sparkyStart');
+io.on('connect',function(socket){
+    var results = redisClient.LRANGE('owled:results',0,25,function(err,res){
+        var test = "hi";
+        socket.emit('owledHistory',res);
+    });
 });
 
-sparky.on('endBlinking', function(res){
-    console.log('Sparky Says... Red: ' + res.red + ' Green: ' + res.green);
-    io.sockets.emit('sparkyResult',res);
-});*/
+// Listen for events on sparky, and announce them to connected clients.
+owled.on('startBlinking', function(){
+    console.log('Sparky Blinks!');
+    io.sockets.emit('owledStart');
+});
+
+owled.on('endBlinking', function(res){
+    console.log('Owled Says... Red: ' + res.red + ' Green: ' + res.green);
+    res.history = getColorString(res);
+    io.sockets.emit('owledResult',res);
+    redisClient.LPUSH('owled:results' , getColorString(res));
+});
+
+function getColorString(res){
+    msg = '';
+    msg += res.red ? 'RED' : '';
+    msg += res.green ? 'GREEN' : '';
+    msg = msg.length ? msg : 'OFF';
+
+    return msg;
+}
+
+setInterval(function(){
+    owled.startBlinking();
+},3000);
+

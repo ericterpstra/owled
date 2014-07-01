@@ -43,9 +43,9 @@ board.on("ready", function() {
             blinking = true;
             msg = false;
 
-            var redBlinkInterval = getRandomNum(500,1500);
-            var whiteBlinkInterval = getRandomNum(500,1500);
-            var blinkTime = getRandomNum(5000,10000);
+            var redBlinkInterval = getRandomNum(200,1000);
+            var whiteBlinkInterval = getRandomNum(200,1000);
+            var blinkTime = getRandomNum(3000,4000);
 
             ledred.blink(redBlinkInterval);
             ledwhite.blink(whiteBlinkInterval);

@@ -8,7 +8,7 @@
 </head>
 <body ng-app="sparkDemo">
 
-<div class="app-wrap" ng-controller="SDController">
+<div class="app-wrap" ng-controller="SDController as owled">
 
     <div class="game-area">
 
@@ -40,6 +40,13 @@
     <div class="result-blocks">
         <div class="result-green" ng-class="{on:serverpick.green}"></div>
         <div class="result-red" ng-class="{on:serverpick.red}"></div>
+    </div>
+
+    <div class="score-history" ng-class="{active:open}">
+        <div class="score-history-btn" ng-click="open=!open">&#9776;</div>
+        <ul>
+            <li ng-repeat="score in history track by $index">{{score}}</li>
+        </ul>
     </div>
 </div> <!-- .app-wrap -->
 
