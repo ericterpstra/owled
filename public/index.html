@@ -1,17 +1,17 @@
 <!doctype html>
 <html>
 <head>
-    <title>#memtech Spark Demo</title>
+    <title>#memtech Super User Group Demo</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/base-min.css">
     <link href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
 </head>
-<body ng-app="sparkDemo">
+<body ng-app="owLED">
 
 <div class="app-wrap" ng-controller="SDController as owled">
 
     <div class="game-area">
-
+        <div class="game-text score-text">{{score}}</div>
         <section class="my-pick-buttons">
 
             <div class="roundedOne green">
@@ -32,9 +32,14 @@
 
         </section>
 
-        <div class="result-text" ng-if="gameResult">
-            <div>{{gameResult}}</div>
+        <div class="result-text game-text" ng-if="gameResult">
+            <p>{{gameResult}}</p>
         </div>
+    </div>
+
+    <div ng-if="debug" class="debug-options">
+        <label>Auto Blink:</label>
+        <input ng-model="autoblink" ng-change="autoBlinkChange(autoblink)" type="checkbox">
     </div>
 
     <div class="result-blocks">
@@ -48,6 +53,7 @@
             <li ng-repeat="score in history track by $index">{{score}}</li>
         </ul>
     </div>
+
 </div> <!-- .app-wrap -->
 
 <script src="/socket.io/socket.io.js"></script>

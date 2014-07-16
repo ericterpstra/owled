@@ -29,19 +29,28 @@ html, body {
     text-align: center;
 }
 
+
 /* ******************************
    ******************************
 */
 
-.result-text {
+.game-text {
+    width: 100%;
+    text-align: center;
     font-family: monospace;
     font-size: 89px;
     color: yellow;
     text-shadow: 1px 0px 0px black;
+}
+
+.score-text {
+    position: absolute;
+    top: -22px;
+}
+
+.result-text {
     top: 252px;
     position: relative;
-    text-align: center;
-    width: 100%;
 }
 
 .result-blocks {
@@ -73,11 +82,11 @@ html, body {
     opacity: 1;
 }
 
-.debug {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    background-color: rgba(12,12,56,0.5);
+.debug-options {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 10;
 }
 
 /* ******************************

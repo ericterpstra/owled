@@ -1,18 +1,18 @@
 'use strict';
 
-var sparkdemo = angular.module('sparkDemo',[
+var owLED = angular.module('owLED',[
     'btford.socket-io'
 ]);
 
-sparkdemo.factory('mySocket', function (socketFactory) {
+owLED.factory('mySocket', function (socketFactory) {
     return socketFactory({
         prefix: ''
     });
 });
 
-sparkdemo.controller('SDController',
-    ['$scope','mySocket',
-        function($scope,mySocket) {
+owLED.controller('SDController',
+    ['$scope','mySocket','$location',
+        function($scope,mySocket,$location) {
             $scope.history = [];
             $scope.open = false;
 
@@ -27,6 +27,16 @@ sparkdemo.controller('SDController',
             };
 
             $scope.gameResult = '';
+            $scope.score = 0;
+
+            $scope.debug = $location.search()['debug'];
+            $scope.autoblink = false;
+
+            $scope.autoBlinkChange = function(val) {
+                console.log("autoblink: " + val);
+                mySocket.emit('doAutoBlink',val);
+            };
+
             var initialized = false;
 
             mySocket.on('owledHistory',function(historyArray){
@@ -38,9 +48,14 @@ sparkdemo.controller('SDController',
             mySocket.on('owledResult',function(res){
                 if(initialized) {
                     $scope.serverpick = res;
-                    $scope.gameResult = ( res.red == $scope.mypick.red && res.green == $scope.mypick.green ) ? "WINNER!" : "LOSER!";
                     $scope.history.pop();
                     $scope.history.unshift(res.history);
+                    if ( res.red == $scope.mypick.red && res.green == $scope.mypick.green ){
+                        $scope.score = $scope.score + 1;
+                        $scope.gameResult  = "WINNER!";
+                    } else {
+                        $scope.gameResult = ["NOPE!","WRONG!","LOSER!"][(Math.random()*3)|0];
+                    }
                 }
             });
 

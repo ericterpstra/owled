@@ -14,9 +14,8 @@ app.get("/", function (req, res) {
 
 
 // Import Sparky
-//var owled = require('./server/owled');
-var owled = require('./server/owled-fake');
-//var sparky = require('./server/sparky');
+var owled = require('./server/owled');
+//var owled = require('./server/owled-fake');
 
 /* *****************************
      Start a Socket.IO Server
@@ -28,14 +27,30 @@ var redis = require('redis');
 var redisClient = redis.createClient();
 http.listen(3000);
 
+var autoBlinking = false;
+var blinkInterval;
 io.on('connect',function(socket){
+
     var results = redisClient.LRANGE('owled:results',0,25,function(err,res){
-        var test = "hi";
         socket.emit('owledHistory',res);
     });
+
+    socket.on('doAutoBlink',function(data){
+        if(!autoBlinking && data) {
+            autoBlinking = true;
+            blinkInterval = setInterval(function(){
+                owled.startBlinking();
+            },5000);
+        }
+
+        if(autoBlinking && !data) {
+            clearInterval(blinkInterval);
+            autoBlinking = false;
+        }
+    })
 });
 
-// Listen for events on sparky, and announce them to connected clients.
+// Listen for events on owled, and announce them to all connected clients.
 owled.on('startBlinking', function(){
     console.log('Sparky Blinks!');
     io.sockets.emit('owledStart');
@@ -56,8 +71,3 @@ function getColorString(res){
 
     return msg;
 }
-
-setInterval(function(){
-    owled.startBlinking();
-},3000);
-

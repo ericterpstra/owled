@@ -3,19 +3,25 @@ var Spark = require("spark-io");
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 
-function Sparky() {
+function Owled() {
     EventEmitter.call(this);
 
+    /**
+     * The board initialization below is specific to the Spark.IO device.
+     * For a regular Arduino, use:
+     *   this.board = new five.Board();
+     */
     this.board = new five.Board({
         io: new Spark({
-            deviceId: '53ff77065075535117161387',
-            token: 'ccd5329c9d74b1c7af24f3c0d5358ddcdb753279'
+            deviceId: process.env.SPARK_DEVICE_ID,
+            token: process.env.SPARK_TOKEN
         })
     });
 
     var self = this;
     this.board.on("ready", function(){
 
+        // Pins are specific to how your board is wired and the device you are using.
         self.button = new five.Button('D5');
         self.ledred = new five.Led('D1');
         self.ledwhite = new five.Led('D0');
@@ -28,7 +34,7 @@ function Sparky() {
 
         self.button.on("down", function() {
             self.startBlinking();
-            self.emit('startBlinking');
+
         });
 
         self.ledred.off();
@@ -37,35 +43,27 @@ function Sparky() {
         self.emit('boardInitialized');
     });
 
-
     this.blinking = false;
 }
-util.inherits(Sparky, EventEmitter);
+util.inherits(Owled, EventEmitter);
 
-Sparky.prototype.startBlinking = function() {
+Owled.prototype.startBlinking = function() {
     if(!this.blinking) {
+        this.emit('startBlinking');
         this.blinking = true;
-        var msg = false;
 
-        var redBlinkInterval = getRandomNum(300,1000);
-        var whiteBlinkInterval = getRandomNum(300,1000);
+        var redBlinkInterval = getRandomNum(300,800);
+        var whiteBlinkInterval = getRandomNum(300,800);
         var blinkTime = getRandomNum(3000,4000);
 
         this.ledred.blink(redBlinkInterval);
         this.ledwhite.blink(whiteBlinkInterval);
 
         setTimeout(function(){
-            //console.log('Stopping Blinking');
             this.ledred.stop();
             this.ledwhite.stop();
             this.blinking = false;
 
-            msg = '';
-            msg += this.ledred.value ? 'RED' : '';
-            msg += this.ledwhite.value ? 'WHITE' : '';
-            msg = msg.length ? msg : 'OFF';
-
-            console.log('Winner is ' + msg);
             this.emit('endBlinking',{
                 red: !!this.ledred.value,
                 green: !!this.ledwhite.value
@@ -78,6 +76,6 @@ Sparky.prototype.startBlinking = function() {
     }
 };
 
-//var sparky = new Sparky();
-module.exports = exports = new Sparky();
+// Export the module
+module.exports = exports = new Owled();
 

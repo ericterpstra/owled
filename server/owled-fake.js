@@ -1,13 +1,13 @@
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 
-function Sparky() {
+function Owled() {
     EventEmitter.call(this);
     this.blinking = false;
 }
-util.inherits(Sparky, EventEmitter);
+util.inherits(Owled, EventEmitter);
 
-Sparky.prototype.startBlinking = function() {
+Owled.prototype.startBlinking = function() {
     if(!this.blinking) {
         this.emit('startBlinking');
         this.blinking = true;
@@ -23,7 +23,7 @@ Sparky.prototype.startBlinking = function() {
                 red: !!red,
                 green: !!white
             });
-        }.bind(this),1000);
+        }.bind(this),2000);
     }
 
     function getRandomNum(min, max) {
@@ -31,4 +31,4 @@ Sparky.prototype.startBlinking = function() {
     }
 };
 
-module.exports = exports = new Sparky();
+module.exports = exports = new Owled();
