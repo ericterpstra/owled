@@ -52,7 +52,7 @@ io.on('connect',function(socket){
 
 // Listen for events on owled, and announce them to all connected clients.
 owled.on('startBlinking', function(){
-    console.log('Sparky Blinks!');
+    console.log('owLED Blinks!');
     io.sockets.emit('owledStart');
 });
 

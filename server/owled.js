@@ -6,26 +6,36 @@ var util = require('util');
 function Owled() {
     EventEmitter.call(this);
 
-    /**
-     * The board initialization below is specific to the Spark.IO device.
-     * For a regular Arduino, use:
-     *   this.board = new five.Board();
-     */
+    /*
+    // Spark Core (http://spark.io) board init
     this.board = new five.Board({
         io: new Spark({
             deviceId: process.env.SPARK_DEVICE_ID,
             token: process.env.SPARK_TOKEN
         })
     });
+    */
+
+    // Arduino board init
+    this.board = new five.Board();
 
     var self = this;
     this.board.on("ready", function(){
 
         // Pins are specific to how your board is wired and the device you are using.
+
+        /* Spark Core pins
         self.button = new five.Button('D5');
         self.ledred = new five.Led('D1');
         self.ledwhite = new five.Led('D0');
+        */
 
+        // Arduino pins
+        self.button = new five.Button(13);
+        self.ledred = new five.Led(11);
+        self.ledwhite = new five.Led(6);
+
+        // Inject devices into the Johnny-Five REPL
         self.board.repl.inject({
             button: self.button,
             ledred: self.ledred,
@@ -34,7 +44,6 @@ function Owled() {
 
         self.button.on("down", function() {
             self.startBlinking();
-
         });
 
         self.ledred.off();
