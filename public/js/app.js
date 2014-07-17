@@ -37,6 +37,10 @@ owLED.controller('SDController',
                 mySocket.emit('doAutoBlink',val);
             };
 
+            $scope.calibrateSphero = function() {
+                mySocket.emit('calibrateSphero');
+            };
+
             var initialized = false;
 
             mySocket.on('owledHistory',function(historyArray){
@@ -53,6 +57,7 @@ owLED.controller('SDController',
                     if ( res.red == $scope.mypick.red && res.green == $scope.mypick.green ){
                         $scope.score = $scope.score + 1;
                         $scope.gameResult  = "WINNER!";
+                        mySocket.emit('playerScored');
                     } else {
                         $scope.gameResult = ["NOPE!","WRONG!","LOSER!"][(Math.random()*3)|0];
                     }

@@ -17,6 +17,8 @@ app.get("/", function (req, res) {
 var owled = require('./server/owled');
 //var owled = require('./server/owled-fake');
 
+var mysphero = require('./server/mysphero');
+
 /* *****************************
      Start a Socket.IO Server
  */
@@ -33,6 +35,15 @@ io.on('connect',function(socket){
 
     var results = redisClient.LRANGE('owled:results',0,25,function(err,res){
         socket.emit('owledHistory',res);
+    });
+
+    socket.on('playerScore',function(){
+        mysphero.rollForward();
+    });
+
+    socket.on('calibrateSphero',function(){
+        console.log("Got calibrateSphero event from browser");
+        mysphero.doCalibration();
     });
 
     socket.on('doAutoBlink',function(data){
@@ -52,6 +63,7 @@ io.on('connect',function(socket){
 
 // Listen for events on owled, and announce them to all connected clients.
 owled.on('startBlinking', function(){
+    //mysphero.rollForward();
     console.log('owLED Blinks!');
     io.sockets.emit('owledStart');
 });

@@ -4,6 +4,8 @@
   "description": "A simple game to demo Spark.io and Johnny Five",
   "dependencies": {
     "body-parser": "^1.4.3",
+    "cylon": "^0.16.0",
+    "cylon-sphero": "^0.13.0",
     "errorhandler": "^1.1.1",
     "express": "^4.4.4",
     "johnny-five": "^0.7.49",
