@@ -12,12 +12,12 @@ app.get("/", function (req, res) {
     res.redirect("/index.html");
 });
 
+var mysphero = require('./server/mysphero');
 
 // Import Sparky
 var owled = require('./server/owled');
 //var owled = require('./server/owled-fake');
 
-var mysphero = require('./server/mysphero');
 
 /* *****************************
      Start a Socket.IO Server
@@ -37,7 +37,8 @@ io.on('connect',function(socket){
         socket.emit('owledHistory',res);
     });
 
-    socket.on('playerScore',function(){
+    socket.on('playerScored',function(){
+        console.log("Got playerScore event from browser");
         mysphero.rollForward();
     });
 
@@ -63,7 +64,7 @@ io.on('connect',function(socket){
 
 // Listen for events on owled, and announce them to all connected clients.
 owled.on('startBlinking', function(){
-    //mysphero.rollForward();
+    mysphero.changeColor();
     console.log('owLED Blinks!');
     io.sockets.emit('owledStart');
 });
