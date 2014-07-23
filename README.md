@@ -56,7 +56,7 @@ Then uncomment the Arduino board init (line 19) and the Arduino pins (34-36)
 
 Change the pin numbers depending on how you wired up your board.
 
-![Arduino Diagram](https://github.com/ericterpstra/owled/blob/master/ArduinoOWLED_bb.jpg)
+![Arduino Diagram](https://github.com/ericterpstra/owled/blob/master/ArduinoOWLED_bb.png)
 
 
 ## Bonus Sphero Action
