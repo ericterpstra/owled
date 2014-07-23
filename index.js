@@ -14,9 +14,9 @@ app.get("/", function (req, res) {
 
 var mysphero = require('./server/mysphero');
 
-// Import Sparky
-var owled = require('./server/owled');
-//var owled = require('./server/owled-fake');
+// Import owLED
+//var owled = require('./server/owled');
+var owled = require('./server/owled-fake');
 
 
 /* *****************************

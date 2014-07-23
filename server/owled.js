@@ -16,6 +16,7 @@ function Owled() {
 
     /*
     // Arduino board init
+    /*
     this.board = new five.Board();
     */
 
@@ -24,13 +25,15 @@ function Owled() {
 
         // Pins are specific to how your board is wired and the device you are using.
 
-        //Spark Core pins
+
+        // Spark Core pins
         self.button = new five.Button('D5');
         self.ledred = new five.Led('D1');
         self.ledwhite = new five.Led('D0');
 
         /*
         // Arduino pins
+        /*
         self.button = new five.Button(13);
         self.ledred = new five.Led(11);
         self.ledwhite = new five.Led(6);
