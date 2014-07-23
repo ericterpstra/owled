@@ -4,6 +4,8 @@ A Small Experiment with Node.JS, Arduino, Johnny Five, Sphero, Cylon.js, Socket.
 
 ###[Click HERE For VIDEO](https://www.youtube.com/watch?v=_T9TdatSAsI)
 
+**[or click here for a blog post that kinda explains what this is](http://ericterpstra.com/2014/07/javascript-powered-stuff/)**
+
 ## What Is This?
 
 This is an Arduino device interacting with a web browser.  Buttons and lights on a breadboard interact with users connected to a Node.JS server. The underlying technologies to make this work are all (pretty much) based on JavaScript.
